@@ -1,33 +1,41 @@
 @echo off
-chcp 65001 >nul
-setlocal
-cd /d "%~dp0"
+setlocal EnableDelayedExpansion
+cd /d "%~dp0" || (
+  echo ERRORE: cartella non trovata.
+  goto :fine
+)
 
 echo.
 echo  ========================================
-echo   Angy Latina - Pubblica sito (GitHub Pages)
+echo   Angy Latina - Pubblica sito v2
 echo  ========================================
+echo   Cartella: %CD%
 echo.
+
+where git >nul 2>&1
+if errorlevel 1 (
+  echo ERRORE: Git non installato o non nel PATH.
+  echo Installa Git for Windows: https://git-scm.com/download/win
+  goto :fine
+)
 
 if not exist "index.html" (
-  echo ERRORE: index.html non trovato. Esegui questo file dalla cartella angylatina-site.
-  pause
-  exit /b 1
+  echo ERRORE: index.html non trovato. Esegui dalla cartella angylatina-site.
+  goto :fine
 )
 
 if not exist "content.json" (
-  echo ATTENZIONE: content.json non trovato in questa cartella.
+  echo ATTENZIONE: content.json mancante.
   echo.
-  echo  1. Apri https://angylatina.it  (o index.html nel browser)
+  echo  1. Apri https://angylatina.it
   echo  2. Area personale - accedi
-  echo  3. Clicca "Pubblica sul sito"
-  echo  4. Salva il file scaricato QUI come content.json
+  echo  3. Pubblica sul sito
+  echo  4. Salva il file QUI come content.json
   echo.
-  set /p OK="Hai messo content.json qui? Premi INVIO per continuare o Ctrl+C per uscire..."
+  set /p OK="Premi INVIO quando content.json e qui, oppure Ctrl+C per uscire..."
   if not exist "content.json" (
-    echo Ancora assente. Copia content.json e rilancia pubblica.bat
-    pause
-    exit /b 1
+    echo Ancora assente.
+    goto :fine
   )
 )
 
@@ -35,53 +43,77 @@ echo OK: content.json presente.
 echo.
 
 git rev-parse --is-inside-work-tree >nul 2>&1
-if %errorlevel% neq 0 (
-  echo Cartella non e un repo git. Leggi DEPLOY-GITHUB.md per init e push.
-  goto FINE
+if errorlevel 1 (
+  echo ERRORE: questa cartella non e un repository Git.
+  echo Leggi DEPLOY-GITHUB.md oppure fai git clone del repo.
+  goto :fine
 )
 
 git remote get-url origin >nul 2>&1
-if %errorlevel% neq 0 (
-  echo Repo git senza remote. Leggi DEPLOY-GITHUB.md ^(git remote add origin ...^).
-  goto FINE
+if errorlevel 1 (
+  echo ERRORE: remote origin mancante.
+  echo   git remote add origin https://github.com/mirkotrombini-lab/angylatina.git
+  goto :fine
 )
 
-echo Git: commit e push su GitHub...
+for /f "delims=" %%u in ('git remote get-url origin 2^>nul') do set "REMOTE=%%u"
+echo Remote: !REMOTE!
+echo !REMOTE!| findstr /i "git@github.com" >nul
+if not errorlevel 1 (
+  echo.
+  echo Suggerimento: usa HTTPS per evitare errori SSH:
+  echo   git remote set-url origin https://github.com/mirkotrombini-lab/angylatina.git
+  echo.
+)
+
+echo [1/3] Aggiorno il PC dal live ^(git pull^)...
+git pull --no-rebase origin main
+if errorlevel 1 (
+  echo.
+  echo PULL fallito ^(conflitto o rete^).
+  echo.
+  echo Per tenere content.json come sul live:
+  echo   git checkout --theirs content.json
+  echo   git add content.json
+  echo   git commit -m "Allinea content.json al sito live"
+  echo.
+  echo Per forzare TUTTO uguale al live ^(perdi modifiche locali^):
+  echo   git merge --abort
+  echo   git fetch origin
+  echo   git reset --hard origin/main
+  echo.
+  goto :fine
+)
+echo OK: locale aggiornato dal live.
+echo.
+
+echo [2/3] Commit modifiche...
 git add content.json assets/ index.html 2>nul
 git add -u
 git diff --staged --quiet
-if %errorlevel%==0 (
-  echo Nessuna modifica da committare.
-) else (
+if errorlevel 1 (
   git commit -m "Pubblica contenuti sito Angy Latina"
-)
-git push
-if %errorlevel%==0 (
-  echo.
-  echo Fatto. GitHub Pages si aggiorna in 1-2 minuti.
 ) else (
+  echo Nessuna modifica da committare.
+)
+echo.
+
+echo [3/3] Push su GitHub...
+git push
+if errorlevel 1 (
   echo.
-  echo Push fallito.
-  git remote get-url origin 2>nul | findstr /i "git@github.com" >nul
-  if %errorlevel%==0 (
-    echo.
-    echo  Causa probabile: SSH non configurato su questo PC ^(Permission denied publickey^).
-    echo.
-    echo  Soluzione A - HTTPS ^(piu semplice su Windows^):
-    echo    git remote set-url origin https://github.com/mirkotrombini-lab/angylatina.git
-    echo    git push
-    echo    ^(usa login GitHub o Personal Access Token quando richiesto^)
-    echo.
-    echo  Soluzione B - Chiave SSH:
-    echo    1. ssh-keygen -t ed25519 -C "tua-email"
-    echo    2. Aggiungi la chiave pubblica su GitHub - Settings - SSH keys
-    echo    3. Rilancia pubblica.bat
-  ) else (
-    echo Controlla connessione, remote origin e permessi sul repo mirkotrombini-lab/angylatina.
-  )
+  echo PUSH fallito. Se vedi Permission denied publickey:
+  echo   git remote set-url origin https://github.com/mirkotrombini-lab/angylatina.git
+  echo   git push
+  goto :fine
 )
 
-:FINE
 echo.
+echo FATTO. Il sito live si aggiorna in 1-2 minuti.
+echo https://angylatina.it
+
+:fine
+echo.
+echo --- Fine. Premi un tasto per chiudere ---
 pause
 endlocal

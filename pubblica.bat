@@ -60,7 +60,25 @@ if %errorlevel%==0 (
   echo.
   echo Fatto. GitHub Pages si aggiorna in 1-2 minuti.
 ) else (
-  echo Push fallito. Controlla connessione e permessi GitHub.
+  echo.
+  echo Push fallito.
+  git remote get-url origin 2>nul | findstr /i "git@github.com" >nul
+  if %errorlevel%==0 (
+    echo.
+    echo  Causa probabile: SSH non configurato su questo PC ^(Permission denied publickey^).
+    echo.
+    echo  Soluzione A - HTTPS ^(piu semplice su Windows^):
+    echo    git remote set-url origin https://github.com/mirkotrombini-lab/angylatina.git
+    echo    git push
+    echo    ^(usa login GitHub o Personal Access Token quando richiesto^)
+    echo.
+    echo  Soluzione B - Chiave SSH:
+    echo    1. ssh-keygen -t ed25519 -C "tua-email"
+    echo    2. Aggiungi la chiave pubblica su GitHub - Settings - SSH keys
+    echo    3. Rilancia pubblica.bat
+  ) else (
+    echo Controlla connessione, remote origin e permessi sul repo mirkotrombini-lab/angylatina.
+  )
 )
 
 :FINE

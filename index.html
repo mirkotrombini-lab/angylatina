@@ -700,8 +700,14 @@ function rEventi(evIn){
 }
 
 // GALLERY
+function galleryForSite(){
+  const draft=gd('al_gallery',DG);
+  if(document.getElementById('apanel').classList.contains('open')&&draft.length) return draft;
+  const pub=pubGet('gallery',DG);
+  return pub.length?pub:draft;
+}
 function rGallery(){
-  const g=pubGet('gallery',DG);
+  const g=galleryForSite();
   const el=document.getElementById('gallery-grid');
   if(!g.length){el.innerHTML='<p style="color:var(--wd);font-size:.82rem;padding:10px 0;grid-column:1/-1">Nessun media caricato.</p>';return;}
   el.innerHTML=g.map((x,i)=>{

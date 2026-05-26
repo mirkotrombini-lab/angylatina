@@ -304,7 +304,7 @@ footer{background:var(--ink);border-top:1px solid rgba(201,168,76,0.08);padding:
     </div>
     <div class="vinner rv" id="perf-media-wrap">
       <div class="vc vtl"></div><div class="vc vbr"></div>
-      <video id="perf-video" autoplay muted loop playsinline preload="metadata" poster="assets/hero-dance.jpg" style="width:100%;display:block;height:min(68vh,760px);object-fit:cover;background:#000">
+      <video id="perf-video" autoplay muted loop playsinline preload="auto" poster="assets/hero-dance.jpg" style="width:100%;display:block;height:min(68vh,760px);object-fit:cover;background:#000">
         <source src="assets/hero-video.mp4" type="video/mp4">
       </video>
     </div>
@@ -965,7 +965,6 @@ function perfMediaFallback(){
   var v=document.getElementById('perf-video');
   if(!v) return;
   v.addEventListener('error', perfMediaFallback, {once:true});
-  v.addEventListener('canplay', function(){ v.play().catch(function(){}); }, {once:true});
 })();
 
 </script>

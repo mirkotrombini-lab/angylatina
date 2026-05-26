@@ -32,17 +32,21 @@ git push -u origin main
 
 (Sostituisci `angylatina` se hai scelto un altro nome repo.)
 
-### 3. Attiva GitHub Pages
+### 3. Attiva GitHub Pages (senza Actions)
+
+Il sito e statico (`index.html` in root). **Non serve un workflow** — evita errori Actions del tipo "Failed to download archive".
 
 1. Repo → **Settings** → **Pages**
 2. **Build and deployment** → Source: **Deploy from a branch**
-3. Branch: **`gh-pages`** · cartella **`/ (root)`**
-4. Salva. (Il branch `gh-pages` viene creato dal workflow al primo push riuscito.)
-5. Se il workflow fallisce: **Actions** → run fallito → **Re-run all jobs**, oppure fai un nuovo push.
+3. Branch: **`main`** · cartella **`/ (root)`**
+4. **Save**
+5. Attendi 1–3 minuti; ricarica la pagina Settings → compare l’URL del sito
 
-**Nota:** non serve "GitHub Actions" come sorgente Pages; il workflow scrive sul branch `gh-pages` e Pages lo serve da li.
+URL temporaneo: `https://mirkotrombini-lab.github.io/angylatina/`
 
-URL temporaneo: `https://mirkotrombini-lab.github.io/angylatina/` (se il repo non e user/org pages root)
+Se in **Actions** vedi run falliti vecchi, ignorali oppure disabilita Actions nel repo (Settings → Actions → Disable).
+
+**Se in futuro vuoi usare Actions** e falliscono tutte con "codeload.github.com": nell’organizzazione `mirkotrombini-lab` vai in **Settings → Actions → General** e consenti le GitHub Actions (es. "Allow all actions").
 
 ### 4. Dominio angylatina.it
 

@@ -35,9 +35,12 @@ git push -u origin main
 ### 3. Attiva GitHub Pages
 
 1. Repo → **Settings** → **Pages**
-2. **Build and deployment** → Source: **GitHub Actions**
-3. Dopo il primo push, il workflow `Deploy GitHub Pages` parte da solo
-4. Attendi il check verde in **Actions**
+2. **Build and deployment** → Source: **Deploy from a branch**
+3. Branch: **`gh-pages`** · cartella **`/ (root)`**
+4. Salva. (Il branch `gh-pages` viene creato dal workflow al primo push riuscito.)
+5. Se il workflow fallisce: **Actions** → run fallito → **Re-run all jobs**, oppure fai un nuovo push.
+
+**Nota:** non serve "GitHub Actions" come sorgente Pages; il workflow scrive sul branch `gh-pages` e Pages lo serve da li.
 
 URL temporaneo: `https://mirkotrombini-lab.github.io/angylatina/` (se il repo non e user/org pages root)
 

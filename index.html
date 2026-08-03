@@ -836,11 +836,12 @@ function rBio(){
 }
 
 // TITOLI
-const REGIONI_IT=['Abruzzo','Basilicata','Calabria','Campania','Emilia-Romagna','Emilia Romagna','Friuli-Venezia Giulia','Friuli Venezia Giulia','Lazio','Liguria','Lombardia','Marche','Molise','Piemonte','Puglia','Sardegna','Sicilia','Toscana','Trentino-Alto Adige','Trentino Alto Adige','Umbria',"Valle d'Aosta",'Veneto'];
+const REGIONI_IT=['Abruzzo','Basilicata','Calabria','Campania','Emilia-Romagna','Emilia Romagna','Friuli-Venezia Giulia','Friuli Venezia Giulia','Lazio','Liguria','Lombardia','Marche','Molise','Piemonte','Puglia','Apulia','Sardegna','Sardinia','Sicilia','Sicily','Toscana','Tuscany','Trentino-Alto Adige','Trentino Alto Adige','Umbria',"Valle d'Aosta",'Veneto'];
+const REG_ALIAS={sicily:'Sicilia',sardinia:'Sardegna',apulia:'Puglia',tuscany:'Toscana','emilia romagna':'Emilia-Romagna','trentino alto adige':'Trentino-Alto Adige','friuli venezia giulia':'Friuli-Venezia Giulia'};
 function escRe(s){return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}
 function extractRegione(s){
   if(!s) return '';
-  for(const r of REGIONI_IT){ if(new RegExp('\\b'+escRe(r)+'\\b','i').test(s)) return r.replace('Emilia Romagna','Emilia-Romagna').replace('Trentino Alto Adige','Trentino-Alto Adige').replace('Friuli Venezia Giulia','Friuli-Venezia Giulia'); }
+  for(const r of REGIONI_IT){ if(new RegExp('\\b'+escRe(r)+'\\b','i').test(s)){ return REG_ALIAS[r.toLowerCase()]||r; } }
   return '';
 }
 function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -850,7 +851,7 @@ function rTitoli(){
   const bc={oro:'bdo',argento:'bda',bronzo:'bdb'};
   const bl={oro:'Oro',argento:'Argento',bronzo:'Bronzo'};
   document.getElementById('titoli-grid').innerHTML=t.length?t.map(x=>{
-    const reg=extractRegione(x.d);
+    const reg=extractRegione(x.d)||extractRegione(x.n);
     const regChip=reg?`<span class="treg" title="Regione">${escHtml(reg)}</span>`:'';
     return `<div class="tc">${regChip}<span class="tm">${m[x.t]||'🏅'}</span><span class="ty">${escHtml(x.a)}</span><div class="tn">${escHtml(x.n)}</div><div class="td">${escHtml(x.d||'')}</div><span class="tbdg ${bc[x.t]||'bda'}">${bl[x.t]||escHtml(x.t)}</span></div>`;
   }).join(''):'<p style="color:var(--wd);font-size:.82rem;grid-column:1/-1;text-align:center">Nessun titolo ancora.</p>';

@@ -159,6 +159,18 @@ section{padding:80px 0}
 .treg{position:absolute;top:14px;right:14px;font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.4);padding:5px 10px 5px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;line-height:1;box-shadow:0 2px 8px -2px rgba(0,0,0,.4);transition:all .3s ease}
 .treg::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
 .tc:hover .treg{background:rgba(201,168,76,.18);border-color:var(--gold);transform:scale(1.04)}
+.treg.italia,.treg.mondo{font-size:.66rem;letter-spacing:2px;padding:7px 13px 7px 11px;gap:7px}
+.treg.italia{background:linear-gradient(135deg,rgba(0,140,69,.22) 0%,rgba(255,255,255,.18) 50%,rgba(206,43,55,.22) 100%);border-color:rgba(255,255,255,.55);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.treg.italia::before{content:'🇮🇹';width:auto;height:auto;background:none;box-shadow:none;font-size:.95rem;line-height:1}
+.tc:hover .treg.italia{border-color:#fff;background:linear-gradient(135deg,rgba(0,140,69,.35) 0%,rgba(255,255,255,.28) 50%,rgba(206,43,55,.35) 100%)}
+.treg.mondo{background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:var(--ink);border-color:var(--gold);box-shadow:0 4px 14px -3px rgba(201,168,76,.6),0 0 24px -6px rgba(232,201,122,.4)}
+.treg.mondo::before{content:'🌍';width:auto;height:auto;background:none;box-shadow:none;font-size:.95rem;line-height:1}
+.tc:hover .treg.mondo{box-shadow:0 6px 20px -3px rgba(201,168,76,.75),0 0 32px -4px rgba(232,201,122,.55)}
+.escope{display:inline-flex;align-items:center;gap:6px;font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:16px;line-height:1;margin-top:2px}
+.escope.italia{background:linear-gradient(135deg,rgba(0,140,69,.28) 0%,rgba(255,255,255,.2) 50%,rgba(206,43,55,.28) 100%);border:1px solid rgba(255,255,255,.4);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.escope.italia::before{content:'🇮🇹';font-size:.95rem;line-height:1}
+.escope.mondo{background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:var(--ink);border:1px solid var(--gold);box-shadow:0 3px 10px -2px rgba(201,168,76,.5)}
+.escope.mondo::before{content:'🌍';font-size:.95rem;line-height:1}
 @media(max-width:700px){.tg2{grid-template-columns:1fr 1fr}}
 @media(max-width:440px){.tg2{grid-template-columns:1fr}}
 
@@ -748,7 +760,7 @@ function titoliAll(){
   const keys=new Set(fromT.map(x=>(x.a+'|'+x.n+'|'+x.t).toLowerCase()));
   const extra=pubGet('eventi',DE).filter(e=>EV_MEDAL[e.t]).map(e=>{
     const t=EV_MEDAL[e.t];
-    const ym=(e.d||'').match(/\b(20\d{2})\b/);
+    const ym=(e.d||'').match(/\b(20\d{2})\b/)||(e.n||'').match(/\b(20\d{2})\b/);
     return {a:ym?ym[0]:'',n:e.n,d:'📍 '+(e.l||''),t};
   }).filter(x=>{
     const k=(x.a+'|'+x.n+'|'+x.t).toLowerCase();
@@ -844,6 +856,13 @@ function extractRegione(s){
   for(const r of REGIONI_IT){ if(new RegExp('\\b'+escRe(r)+'\\b','i').test(s)){ return REG_ALIAS[r.toLowerCase()]||r; } }
   return '';
 }
+function extractScope(){
+  const s=Array.from(arguments).filter(Boolean).join(' ');
+  if(!s) return '';
+  if(/\b(mondiali?|mondo|world|internazional[ei])\b/i.test(s)) return 'Mondo';
+  if(/\b(assoluti|fidesm|italiani?|italia|ranking\s+generale|nazional[ei])\b/i.test(s)) return 'Italia';
+  return '';
+}
 function escHtml(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function rTitoli(){
   const t=titoliAll();
@@ -852,8 +871,14 @@ function rTitoli(){
   const bl={oro:'Oro',argento:'Argento',bronzo:'Bronzo'};
   document.getElementById('titoli-grid').innerHTML=t.length?t.map(x=>{
     const reg=extractRegione(x.d)||extractRegione(x.n);
-    const regChip=reg?`<span class="treg" title="Regione">${escHtml(reg)}</span>`:'';
-    return `<div class="tc">${regChip}<span class="tm">${m[x.t]||'🏅'}</span><span class="ty">${escHtml(x.a)}</span><div class="tn">${escHtml(x.n)}</div><div class="td">${escHtml(x.d||'')}</div><span class="tbdg ${bc[x.t]||'bda'}">${bl[x.t]||escHtml(x.t)}</span></div>`;
+    let chip='';
+    if(reg){
+      chip=`<span class="treg" title="Regione">${escHtml(reg)}</span>`;
+    }else{
+      const scope=extractScope(x.n, x.d);
+      if(scope) chip=`<span class="treg ${scope.toLowerCase()}" title="${scope==='Mondo'?'Internazionale':'Nazionale'}">${escHtml(scope)}</span>`;
+    }
+    return `<div class="tc">${chip}<span class="tm">${m[x.t]||'🏅'}</span><span class="ty">${escHtml(x.a)}</span><div class="tn">${escHtml(x.n)}</div><div class="td">${escHtml(x.d||'')}</div><span class="tbdg ${bc[x.t]||'bda'}">${bl[x.t]||escHtml(x.t)}</span></div>`;
   }).join(''):'<p style="color:var(--wd);font-size:.82rem;grid-column:1/-1;text-align:center">Nessun titolo ancora.</p>';
 }
 
@@ -863,7 +888,17 @@ function rEventi(evIn){
   const up=ev.filter(e=>EV_UP.includes(e.t));
   const ps=ev.filter(e=>!EV_UP.includes(e.t));
   const mku=e=>{const lb=EV_LBL[e.t]||e.t;const tag=EV_UP.includes(e.t)&&e.t!=='upcoming'?`<span class="er erg">${lb}</span>`:'';return `<div class="ei"><div class="ed t"></div><div><div class="edt tc2">${e.d}</div><div class="en">${e.n}</div><div class="el">📍 ${e.l}</div>${tag}</div></div>`;};
-  const mkp=e=>{let er='';if(e.t==='gold')er='<span class="er erg">🥇 1° posto</span>';else if(e.t==='silver')er='<span class="er ers">🥈 2° posto</span>';else if(e.t==='bronze')er='<span class="er ers">🥉 3° posto</span>';else if(EV_LBL[e.t])er=`<span class="er ers">${EV_LBL[e.t]}</span>`;return `<div class="ei"><div class="ed ${e.t==='gold'?'g':'s'}"></div><div><div class="edt">${e.d}</div><div class="en">${e.n}</div><div class="el">📍 ${e.l}</div>${er}</div></div>`;};
+  const mkp=e=>{
+    let er='';
+    if(e.t==='gold')er='<span class="er erg">🥇 1° posto</span>';
+    else if(e.t==='silver')er='<span class="er ers">🥈 2° posto</span>';
+    else if(e.t==='bronze')er='<span class="er ers">🥉 3° posto</span>';
+    else if(EV_LBL[e.t])er=`<span class="er ers">${EV_LBL[e.t]}</span>`;
+    const scope=(e.l==='Italia'||e.l==='Mondo')?e.l:'';
+    const loc=scope?`<span class="escope ${scope.toLowerCase()}">${scope}</span>`:(e.l?`📍 ${e.l}`:'');
+    const dateHtml=e.d?`<div class="edt">${e.d}</div>`:'';
+    return `<div class="ei"><div class="ed ${e.t==='gold'?'g':'s'}"></div><div>${dateHtml}<div class="en">${e.n}</div><div class="el">${loc}</div>${er}</div></div>`;
+  };
   document.getElementById('ev-up').innerHTML=up.length?up.map(mku).join(''):'<p style="color:var(--wd);font-size:.82rem;padding:10px 0">Nessun evento in programma.</p>';
   document.getElementById('ev-ps').innerHTML=ps.length?ps.map(mkp).join(''):'<p style="color:var(--wd);font-size:.82rem;padding:10px 0">Nessuna gara registrata.</p>';
 }

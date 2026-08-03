@@ -159,17 +159,12 @@ section{padding:80px 0}
 .treg{position:absolute;top:14px;right:14px;font-size:.58rem;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.4);padding:5px 10px 5px 8px;border-radius:20px;display:inline-flex;align-items:center;gap:5px;line-height:1;box-shadow:0 2px 8px -2px rgba(0,0,0,.4);transition:all .3s ease}
 .treg::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold)}
 .tc:hover .treg{background:rgba(201,168,76,.18);border-color:var(--gold);transform:scale(1.04)}
-.treg.italia,.treg.mondo{font-size:.66rem;letter-spacing:2px;padding:7px 13px 7px 11px;gap:7px}
-.treg.italia{background:linear-gradient(135deg,rgba(0,140,69,.22) 0%,rgba(255,255,255,.18) 50%,rgba(206,43,55,.22) 100%);border-color:rgba(255,255,255,.55);color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.treg.italia,.treg.mondo{font-size:.66rem;letter-spacing:2px;padding:7px 13px 7px 11px;gap:7px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:var(--ink);border-color:var(--gold);box-shadow:0 4px 14px -3px rgba(201,168,76,.6),0 0 24px -6px rgba(232,201,122,.4)}
 .treg.italia::before{content:'🇮🇹';width:auto;height:auto;background:none;box-shadow:none;font-size:.95rem;line-height:1}
-.tc:hover .treg.italia{border-color:#fff;background:linear-gradient(135deg,rgba(0,140,69,.35) 0%,rgba(255,255,255,.28) 50%,rgba(206,43,55,.35) 100%)}
-.treg.mondo{background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:var(--ink);border-color:var(--gold);box-shadow:0 4px 14px -3px rgba(201,168,76,.6),0 0 24px -6px rgba(232,201,122,.4)}
 .treg.mondo::before{content:'🌍';width:auto;height:auto;background:none;box-shadow:none;font-size:.95rem;line-height:1}
-.tc:hover .treg.mondo{box-shadow:0 6px 20px -3px rgba(201,168,76,.75),0 0 32px -4px rgba(232,201,122,.55)}
-.escope{display:inline-flex;align-items:center;gap:6px;font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:16px;line-height:1;margin-top:2px}
-.escope.italia{background:linear-gradient(135deg,rgba(0,140,69,.28) 0%,rgba(255,255,255,.2) 50%,rgba(206,43,55,.28) 100%);border:1px solid rgba(255,255,255,.4);color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.5)}
+.tc:hover .treg.italia,.tc:hover .treg.mondo{box-shadow:0 6px 20px -3px rgba(201,168,76,.75),0 0 32px -4px rgba(232,201,122,.55)}
+.escope{display:inline-flex;align-items:center;gap:6px;font-size:.62rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;padding:4px 10px;border-radius:16px;line-height:1;margin-top:2px;background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:var(--ink);border:1px solid var(--gold);box-shadow:0 3px 10px -2px rgba(201,168,76,.5)}
 .escope.italia::before{content:'🇮🇹';font-size:.95rem;line-height:1}
-.escope.mondo{background:linear-gradient(135deg,var(--gold) 0%,var(--gold2) 100%);color:var(--ink);border:1px solid var(--gold);box-shadow:0 3px 10px -2px rgba(201,168,76,.5)}
 .escope.mondo::before{content:'🌍';font-size:.95rem;line-height:1}
 @media(max-width:700px){.tg2{grid-template-columns:1fr 1fr}}
 @media(max-width:440px){.tg2{grid-template-columns:1fr}}

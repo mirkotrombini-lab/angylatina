@@ -180,21 +180,40 @@ section{padding:80px 0}
 @media(max-width:700px){.g2c{grid-template-columns:1fr}}
 
 /* GALLERY */
-#gallery{background:var(--ink)}
-.gg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
-.gi{position:relative;aspect-ratio:1;overflow:hidden;cursor:pointer}
-.gi:first-child{grid-column:span 2;grid-row:span 2;aspect-ratio:auto}
-.gi img,.gi video{width:100%;height:100%;object-fit:cover;transition:transform .45s ease;background:#000}
-.gi:hover img,.gi:hover video{transform:scale(1.06)}
-.go{position:absolute;inset:0;opacity:0;transition:opacity .3s;display:flex;align-items:flex-end;padding:13px;background:linear-gradient(to top,rgba(6,6,8,0.65) 0%,transparent 50%)}
+#gallery{background:linear-gradient(to bottom,var(--ink) 0%,var(--ink2) 55%,var(--ink) 100%);position:relative}
+#gallery::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:60%;max-width:600px;height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.3),transparent)}
+.gg{display:grid;grid-template-columns:repeat(3,1fr);grid-auto-rows:230px;grid-auto-flow:dense;gap:14px}
+.gi{position:relative;overflow:hidden;cursor:pointer;border-radius:14px;background:var(--ink2);border:1px solid rgba(201,168,76,0.08);transition:transform .5s cubic-bezier(.2,.8,.2,1),border-color .4s ease;will-change:transform}
+.gi:first-child{grid-column:span 2;grid-row:span 2}
+.gi::after{content:'';position:absolute;inset:0;border-radius:14px;pointer-events:none;box-shadow:0 8px 24px -12px rgba(0,0,0,.6);transition:box-shadow .5s ease}
+.gi:hover{transform:translateY(-4px);border-color:rgba(201,168,76,0.42)}
+.gi:hover::after{box-shadow:0 0 0 1px rgba(201,168,76,0.5),0 28px 60px -18px rgba(0,0,0,.75),0 0 42px -8px rgba(201,168,76,.28)}
+.gi img,.gi video{width:100%;height:100%;object-fit:cover;transition:transform .9s cubic-bezier(.2,.8,.2,1),filter .5s ease;background:#000;display:block}
+.gi:hover img,.gi:hover video{transform:scale(1.08);filter:brightness(1.05)}
+.gbadge{position:absolute;top:12px;right:12px;background:rgba(6,6,8,.72);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);color:var(--gold);border:1px solid rgba(201,168,76,.28);padding:5px 11px;font-size:.6rem;letter-spacing:2.5px;text-transform:uppercase;font-weight:600;border-radius:20px;opacity:0;transform:translateY(-6px);transition:all .4s ease;z-index:2;pointer-events:none}
+.gi:hover .gbadge{opacity:1;transform:translateY(0)}
+.go{position:absolute;inset:0;opacity:0;transition:opacity .45s ease;display:flex;flex-direction:column;justify-content:flex-end;padding:22px;background:linear-gradient(to top,rgba(6,6,8,.94) 0%,rgba(6,6,8,.5) 35%,rgba(6,6,8,.05) 65%,transparent 100%);pointer-events:none}
 .gi:hover .go{opacity:1}
-.gl{font-size:.66rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
-@media(max-width:700px){.gg{grid-template-columns:1fr 1fr}.gi:first-child{grid-column:span 2}}
-.lb{position:fixed;inset:0;background:rgba(6,6,8,.96);z-index:200;display:none;align-items:center;justify-content:center}
+.gview{align-self:flex-start;font-size:.6rem;letter-spacing:3px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:10px;opacity:0;transform:translateY(10px);transition:all .5s .05s ease}
+.gi:hover .gview{opacity:1;transform:translateY(0)}
+.gl{font-family:'Playfair Display',serif;font-style:italic;font-size:1.08rem;color:#fff;line-height:1.3;letter-spacing:.2px;transform:translateY(8px);opacity:0;transition:all .5s .1s ease}
+.gi:hover .gl{opacity:1;transform:translateY(0)}
+.gl::before{content:'';display:block;width:26px;height:1px;background:var(--gold);margin-bottom:10px}
+.gi:first-child .gl{font-size:1.25rem}
+@media(max-width:900px){.gg{grid-auto-rows:190px;gap:12px}.gi:first-child .gl{font-size:1.1rem}}
+@media(max-width:700px){.gg{grid-template-columns:1fr 1fr;grid-auto-rows:160px;gap:10px}.gi:first-child{grid-column:span 2;grid-row:span 2}.gl{font-size:.95rem}}
+@media(max-width:480px){.gg{grid-auto-rows:130px;gap:8px}.go{padding:14px}}
+.lb{position:fixed;inset:0;background:rgba(6,6,8,.92);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
 .lb.open{display:flex}
-.lb img,.lb video{max-width:92vw;max-height:92vh;object-fit:contain}
-.lbx{position:absolute;top:14px;right:20px;font-size:1.4rem;cursor:pointer;color:var(--w);width:36px;height:36px;border:1px solid rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;transition:all .3s}
-.lbx:hover{border-color:var(--gold);color:var(--gold)}
+.lb img,.lb video{max-width:min(1200px,92vw);max-height:86vh;object-fit:contain;border-radius:8px;box-shadow:0 30px 90px -20px rgba(0,0,0,.9)}
+.lbx{position:absolute;top:20px;right:24px;font-size:1.15rem;cursor:pointer;color:var(--w);width:44px;height:44px;border:1px solid rgba(255,255,255,0.2);border-radius:50%;background:rgba(6,6,8,.6);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;transition:all .3s ease;z-index:3}
+.lbx:hover{border-color:var(--gold);color:var(--gold);transform:rotate(90deg);background:rgba(6,6,8,.85)}
+.lbnav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border:1px solid rgba(255,255,255,0.2);border-radius:50%;background:rgba(6,6,8,.6);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);color:var(--w);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.7rem;line-height:1;padding:0;padding-bottom:4px;transition:all .3s ease;z-index:3}
+.lbnav:hover{border-color:var(--gold);color:var(--gold);background:rgba(6,6,8,.9)}
+.lbnav.prev{left:24px}.lbnav.next{right:24px}
+.lbcnt{position:absolute;top:24px;left:24px;color:var(--gold);font-size:.7rem;letter-spacing:3px;text-transform:uppercase;font-weight:600;background:rgba(6,6,8,.6);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding:8px 16px;border-radius:20px;border:1px solid rgba(201,168,76,.28);z-index:3}
+.lbcap{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);color:#fff;font-family:'Playfair Display',serif;font-style:italic;font-size:1rem;text-align:center;max-width:82vw;background:rgba(6,6,8,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);padding:9px 20px;border-radius:24px;border:1px solid rgba(255,255,255,.12);z-index:3}
+@media(max-width:600px){.lbnav{width:42px;height:42px;font-size:1.4rem}.lbnav.prev{left:10px}.lbnav.next{right:10px}.lbx{top:14px;right:14px;width:38px;height:38px}.lbcap{bottom:14px;font-size:.85rem;padding:7px 14px}.lbcnt{top:14px;left:14px;font-size:.6rem;padding:6px 12px}}
 
 /* SOCIAL */
 #social{background:var(--ink2)}
@@ -449,7 +468,15 @@ footer{background:var(--ink);border-top:1px solid rgba(201,168,76,0.08);padding:
     <div class="gg rv" id="gallery-grid"></div>
   </div>
 </section>
-<div class="lb" id="lb" onclick="clb()"><div class="lbx">✕</div><img id="lbi" src="" alt=""><video id="lbv" controls playsinline preload="metadata" style="display:none"></video></div>
+<div class="lb" id="lb" onclick="clbBg(event)">
+  <div class="lbcnt" id="lbcnt"></div>
+  <div class="lbx" onclick="event.stopPropagation();clb()" title="Chiudi (Esc)" role="button" aria-label="Chiudi">✕</div>
+  <button class="lbnav prev" onclick="event.stopPropagation();lbnav(-1)" title="Precedente (←)" aria-label="Precedente">‹</button>
+  <button class="lbnav next" onclick="event.stopPropagation();lbnav(1)" title="Successivo (→)" aria-label="Successivo">›</button>
+  <img id="lbi" src="" alt="" onclick="event.stopPropagation()">
+  <video id="lbv" controls playsinline preload="metadata" style="display:none" onclick="event.stopPropagation()"></video>
+  <div class="lbcap" id="lbcap"></div>
+</div>
 
 <section id="social">
   <div class="cnt">
@@ -751,10 +778,13 @@ function gallerySrcOk(s){
   return false;
 }
 let galleryItemsCache=[];
+let lbIdx=0;
 function olb(i){
   const x=galleryItemsCache[i];
   if(!x||!x.s) return;
+  lbIdx=i;
   const lb=document.getElementById('lb'),img=document.getElementById('lbi'),vid=document.getElementById('lbv');
+  const cnt=document.getElementById('lbcnt'),cap=document.getElementById('lbcap');
   const s=x.s;
   const type=x.t||(isVideoSrc(s)?'video':'image');
   if(type==='video'){
@@ -764,6 +794,10 @@ function olb(i){
     vid.pause();vid.removeAttribute('src');vid.style.display='none';
     img.style.display='block';img.src=s;
   }
+  if(cnt) cnt.textContent=(i+1)+' / '+galleryItemsCache.length;
+  if(cap) cap.textContent=x.l||'';
+  const showNav=galleryItemsCache.length>1;
+  document.querySelectorAll('.lbnav').forEach(el=>el.style.display=showNav?'flex':'none');
   lb.classList.add('open');document.body.style.overflow='hidden';
 }
 function clb(){
@@ -771,7 +805,19 @@ function clb(){
   vid.pause();vid.removeAttribute('src');
   lb.classList.remove('open');document.body.style.overflow='';
 }
-document.addEventListener('keydown',e=>{if(e.key==='Escape')clb();});
+function clbBg(e){if(e.target&&e.target.id==='lb')clb();}
+function lbnav(dir){
+  if(!galleryItemsCache.length) return;
+  const n=galleryItemsCache.length;
+  olb(((lbIdx+dir)%n+n)%n);
+}
+document.addEventListener('keydown',e=>{
+  const lb=document.getElementById('lb');
+  if(!lb||!lb.classList.contains('open')) return;
+  if(e.key==='Escape')clb();
+  else if(e.key==='ArrowRight')lbnav(1);
+  else if(e.key==='ArrowLeft')lbnav(-1);
+});
 
 // REVEAL
 const ro=new IntersectionObserver((es)=>{
@@ -864,11 +910,19 @@ function rGallery(){
       img.addEventListener('error',()=>{img.alt='Immagine non caricata — ricarica il file o usa un URL';});
       cell.appendChild(img);
     }
+    const badge=document.createElement('span');
+    badge.className='gbadge';
+    badge.textContent=t==='video'?'▶ Video':'Foto';
+    cell.appendChild(badge);
     const ov=document.createElement('div');
     ov.className='go';
+    const view=document.createElement('span');
+    view.className='gview';
+    view.textContent=t==='video'?'Guarda ▸':'Ingrandisci ⤢';
+    ov.appendChild(view);
     const cap=document.createElement('span');
     cap.className='gl';
-    cap.textContent=(t==='video'?'▶ ':'')+l;
+    cap.textContent=l;
     ov.appendChild(cap);
     cell.appendChild(ov);
     el.appendChild(cell);

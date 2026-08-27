@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": "2026-08-26",
+  "updated": "2026-08-27",
   "titoli": [
     {
       "a": "2026",
@@ -137,40 +137,28 @@
   ],
   "eventi": [
     {
-      "d": "23/05/26",
-      "t": "silver",
-      "n": "Abruzzo Dance League LDL - Showcase",
-      "l": "Pescara"
+      "d": "28/08/26",
+      "n": "Show presso Fuoco e Fiamme",
+      "l": "Rovigo",
+      "t": "esibizione"
     },
     {
-      "d": "",
-      "t": "silver",
-      "n": "Vice Campionessa Assoluti FIDESM 2026",
-      "l": "Italia"
+      "d": "11/09/26",
+      "n": "Show presso Tilt",
+      "l": "Padova",
+      "t": "esibizione"
     },
     {
-      "d": "16/05/26",
-      "t": "upcoming",
-      "n": "Ballando On The Road",
-      "l": "Milano"
+      "d": "27/09/26",
+      "n": "Premiazione Ranking 2026",
+      "l": "Bologna",
+      "t": "upcoming"
     },
     {
-      "d": "16/05/26",
-      "t": "upcoming",
-      "n": "LDL Trofeo MP",
-      "l": "Torino"
-    },
-    {
-      "d": "14/06/26",
-      "t": "upcoming",
-      "n": "Universal Dance League - Mondiali",
-      "l": "Bologna"
-    },
-    {
-      "d": "23/05/26",
-      "t": "upcoming",
-      "n": "Abruzzo Dance League",
-      "l": "Pescara"
+      "d": "21-26/10/26",
+      "n": "La Negra Festival",
+      "l": "Spagna",
+      "t": "upcoming"
     }
   ],
   "gallery": [

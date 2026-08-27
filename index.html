@@ -10,6 +10,9 @@
 <meta name="robots" content="index, follow, max-image-preview:large">
 <meta name="msvalidate.01" content="AAC5DBED547FDDB3F1019060E9C8E189" />
 <link rel="canonical" href="https://angylatina.it/">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="/assets/apple-touch-icon.png">
 
 <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
 <meta property="og:type" content="website">
@@ -606,9 +609,8 @@ footer{background:var(--ink);border-top:1px solid rgba(201,168,76,0.08);padding:
       <h2 class="st">Gare ed <em>Eventi</em></h2>
       <div class="sd" style="margin:0 auto"></div>
     </div>
-    <div class="g2c">
-      <div><div class="gct up">↗ Prossime gare</div><div id="ev-up"></div></div>
-      <div><div class="gct ps">✓ Gare passate</div><div id="ev-ps"></div></div>
+    <div>
+      <div><div class="gct up">↗ Prossimi eventi</div><div id="ev-up"></div></div>
     </div>
   </div>
 </section>
@@ -805,10 +807,10 @@ const DT=[
   {a:"2025",t:"oro",n:"Caribbean Dance Festival - Duo Femminile",d:"29/11/2025, Calabria - 1 posto Salsa Shine e 1 posto Bachata Shine"},
 ];
 const DE=[
-  {d:"Luglio 2025",n:"Campionato Nazionale",l:"Italia",t:"upcoming"},
-  {d:"Aprile 2025",n:"Trofeo Nazionale Primavera",l:"Italia",t:"gold"},
-  {d:"Novembre 2024",n:"Campionato Mondiale",l:"Internazionale",t:"silver"},
-  {d:"Settembre 2024",n:"Campionato Italiano",l:"Italia",t:"gold"},
+  {d:"28/08/26",n:"Show presso Fuoco e Fiamme",l:"Rovigo",t:"esibizione"},
+  {d:"11/09/26",n:"Show presso Tilt",l:"Padova",t:"esibizione"},
+  {d:"27/09/26",n:"Premiazione Ranking 2026",l:"Bologna",t:"upcoming"},
+  {d:"21-26/10/26",n:"La Negra Festival",l:"Spagna",t:"upcoming"},
 ];
 const EV_UP=['upcoming','stage','esibizione','summit'];
 const EV_LBL={upcoming:'Prossima gara',stage:'Stage',esibizione:'Esibizione',summit:'Summit',gold:'1 posto',silver:'2 posto',bronze:'3 posto',participant:'Partecipazione'};
@@ -1042,7 +1044,8 @@ function rEventi(evIn){
     return `<div class="ei"><div class="ed ${e.t==='gold'?'g':'s'}"></div><div>${dateHtml}<div class="en">${e.n}</div><div class="el">${loc}</div>${er}</div></div>`;
   };
   document.getElementById('ev-up').innerHTML=up.length?up.map(mku).join(''):'<p style="color:var(--wd);font-size:.82rem;padding:10px 0">Nessun evento in programma.</p>';
-  document.getElementById('ev-ps').innerHTML=ps.length?ps.map(mkp).join(''):'<p style="color:var(--wd);font-size:.82rem;padding:10px 0">Nessuna gara registrata.</p>';
+  const psEl=document.getElementById('ev-ps');
+  if(psEl) psEl.innerHTML=ps.length?ps.map(mkp).join(''):'<p style="color:var(--wd);font-size:.82rem;padding:10px 0">Nessuna gara registrata.</p>';
 }
 
 // GALLERY — lista admin = bozza (localStorage); sito pubblico = content.json su GitHub
